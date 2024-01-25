@@ -3,6 +3,7 @@ groups:
   rules:
   - alert: HighCpuUsage
     expr: 100 - (irate(node_cpu_seconds_total{mode='idle',job='node-exporter'}[1m]) * 100) > 80
+    for: 1m
     annotations:
       summary: "High CPU usage"
-      description: "CPU usage is above 90%"
+      description: "CPU usage is above 80%:  (current value: {{ humanize $value }})"
