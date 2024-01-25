@@ -1,0 +1,8 @@
+groups:
+- name: example
+  rules:
+  - alert: HighCpuUsage
+    expr: 100 - (irate(node_cpu_seconds_total{mode='idle',job='node-exporter'}[1m]) * 100) > 80
+    annotations:
+      summary: "High CPU usage"
+      description: "CPU usage is above 90%"

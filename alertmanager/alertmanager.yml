@@ -1,0 +1,17 @@
+global:
+  resolve_timeout: 5m
+#  receiver: 'telepush' #Название ресивера, который будет обрабатывать алерты.
+
+route:
+  group_by: 
+    - HighCpuUsage
+  group_wait: 1m
+  group_interval: 1m
+  repeat_interval: 30s
+  receiver: 'telepush'
+
+receivers:
+- name: 'telepush'
+  webhook_configs:
+  - send_resolved: true
+    url: 'https://telepush.dev/api/inlets/alertmanager/570659'
