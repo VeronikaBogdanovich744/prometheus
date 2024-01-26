@@ -1,11 +1,7 @@
-#global:
-#  resolve_timeout: 5m
-#  receiver: 'telepush' #Название ресивера, который будет обрабатывать алерты.
-
 route:
   group_by: 
     - HighCpuUsage
-  group_wait: 1m
+  group_wait: 10s
   group_interval: 1m
   repeat_interval: 1h
   receiver: 'telepush'
