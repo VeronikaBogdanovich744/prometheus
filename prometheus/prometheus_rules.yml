@@ -2,15 +2,19 @@ groups:
 - name: example
   rules:
   - alert: HighCpuUsage
-    expr: 100 - (irate(node_cpu_seconds_total{mode='idle',job='node-exporter'}[1m]) * 100) > 80
+    expr: 100 - (irate(node_cpu_seconds_total{mode='idle',check='CPU'}[1m]) * 100) > 80
     for: 10s
+    labels:
+      severity: warning
     annotations:
       summary: "High CPU usage"
       description: "CPU usage is above 80%:  (current value: {{ humanize $value }})"
 
   - alert: HighMemoryUsage
-    expr: 100 - (rate(node_memory_MemAvailable_bytes{job='VM-node-exporter'}[1m]) / node_memory_MemTotal_bytes{job='VM-node-exporter'} * 100) < 20
+    expr: 100 - (rate(node_memory_MemAvailable_bytes{check='Memory'}[1m]) / node_memory_MemTotal_bytes{check='Memory'} * 100) < 20
     for: 10s
+    labels:
+      severity: warning
     annotations:
       summary: "High memory usage"
-      description: "Memory left is less than 20%:  (current value: {{ humanize $value }})"
+      description: "Free memory left is less than 20%:  (current value: {{ humanize $value }})"
