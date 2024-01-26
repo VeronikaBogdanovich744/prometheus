@@ -11,10 +11,10 @@ groups:
       description: "CPU usage is above 80%:  (current value: {{ humanize $value }})"
 
   - alert: HighMemoryUsage
-    expr: 100 - (rate(node_memory_MemAvailable_bytes{check='Memory'}[1m]) / node_memory_MemTotal_bytes{check='Memory'} * 100) < 20
+    expr: 100 * ((node_memory_MemTotal_bytes{check='Memory'} - node_memory_MemFree_bytes{check='Memory'} - node_memory_Buffers_bytes{check='Memory'} - node_memory_Cached_bytes{check='Memory'}) / node_memory_MemTotal_bytes{check='Memory'}) > 70
     for: 10s
     labels:
       severity: warning
     annotations:
       summary: "High memory usage"
-      description: "Free memory left is less than 20%:  (current value: {{ humanize $value }})"
+      description: "Memory left is more than 70%:  (current value: {{ humanize $value }})"
